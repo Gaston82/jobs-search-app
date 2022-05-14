@@ -1,5 +1,5 @@
-const bcryptjs = require("bcryptjs");
 const { response } = require("express");
+const bcryptjs = require("bcryptjs");
 
 const User = require("../models/user");
 
@@ -15,6 +15,13 @@ const usersGet = (req, res = response) => {
 const usersPost = async (req, res = response) => {
   const { name, email, role, password } = req.body;
   const user = new User({ name, email, role, password });
+
+  const doesEmailExist = await User.find({ email });
+  if (doesEmailExist) {
+    return res.status(400).json({
+      msg: "Email adress already exist",
+    });
+  }
 
   const salt = bcryptjs.genSaltSync();
   user.password = bcryptjs.hashSync(password, salt);
