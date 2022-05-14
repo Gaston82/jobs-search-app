@@ -3,12 +3,22 @@ const bcryptjs = require("bcryptjs");
 
 const User = require("../models/user");
 
-const usersGet = (req, res = response) => {
-  const { name, api_key } = req.query;
+const usersGet = async (req = request, res = response) => {
+  // const { q, name, apikey, page = 1, limit } = req.query;
+  const { limit = 5, from = 0 } = req.query;
+  const query = { status: true };
+  // const usuarios = await Usuario.find(query)
+  //   .limit(Number(limite))
+  //   .skip(Number(desde));
+
+  // const total = await Usuario.countDocuments();
+  const [users, total] = await Promise.all([
+    User.find(query).limit(Number(limit)).skip(Number(from)),
+    User.countDocuments(query),
+  ]);
   res.json({
-    msg: "get API",
-    name,
-    api_key,
+    total,
+    users,
   });
 };
 
