@@ -1,6 +1,6 @@
 const { Schema, model } = require("mongoose");
 
-const UsuarioSchema = Schema({
+const UserSchema = Schema({
   name: {
     type: String,
     required: [true, "El nombre es obligatorio"],
@@ -18,7 +18,7 @@ const UsuarioSchema = Schema({
   img: {
     type: String,
   },
-  rol: {
+  role: {
     type: String,
     required: true,
     emun: ["ADMIN_ROLE", "USER_ROLE", "EMPLOYER_ROLE"],
