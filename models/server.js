@@ -1,6 +1,6 @@
 const express = require("express");
 const cors = require("cors");
-// const { dbConnection } = require("../database/config");
+const { dbConnection } = require("../database/config");
 
 class Server {
   constructor() {
@@ -16,7 +16,7 @@ class Server {
 
     //conectar a base de datos
 
-    // this.conectarDB();
+    this.connectDB();
 
     //Middlewares
     this.middlewares();
@@ -24,7 +24,7 @@ class Server {
     this.routes();
   }
 
-  async conectarDB() {
+  async connectDB() {
     await dbConnection();
   }
 
@@ -40,34 +40,10 @@ class Server {
   }
 
   routes() {
-    this.app.get("/api", (req, res) => {
-      res.json({
-        msg: "get API",
-      });
-    });
-
-    this.app.post("/api", (req, res) => {
-      res.json({
-        msg: "post API",
-      });
-    });
-
-    this.app.put("/api", (req, res) => {
-      res.json({
-        msg: "put API",
-      });
-    });
-
-    this.app.delete("/api", (req, res) => {
-      res.json({
-        msg: "get API",
-      });
-    });
-
-    this.app.use(this.paths.auth, require("../routes/auth"));
-    this.app.use(this.paths.categories, require("../routes/categories"));
     this.app.use(this.paths.users, require("../routes/users"));
-    this.app.use(this.paths.jobs, require("../routes/jobs"));
+    // this.app.use(this.paths.auth, require("../routes/auth"));
+    // this.app.use(this.paths.categories, require("../routes/categories"));
+    // this.app.use(this.paths.jobs, require("../routes/jobs"));
   }
 
   listen() {
