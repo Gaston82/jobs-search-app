@@ -38,9 +38,9 @@ const usersPost = async (req, res = response) => {
 const usersDelete = async (req, res = response) => {
   const { id } = req.params;
 
-  const deleteUser = await User.findByIdAndUpdate(id, { status: false });
+  const userToDelete = await User.findByIdAndUpdate(id, { status: false });
   res.json({
-    deleteUser,
+    userToDelete,
   });
 };
 
