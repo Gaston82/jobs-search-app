@@ -18,7 +18,7 @@ const isAdminRol = (req, res = response, next) => {
   next();
 };
 
-const tieneRole = (...rols) => {
+const doesHaveArole = (...rols) => {
   console.log(rols);
 
   return (req, res = response, next) => {
@@ -28,9 +28,9 @@ const tieneRole = (...rols) => {
       });
     }
 
-    if (!rols.includes(req.user.rols)) {
+    if (!rols.includes(req.user.role)) {
       return res.status(401).json({
-        msg: `El servicio requiere uno de estos roles ${roles}`,
+        msg: `El servicio requiere uno de estos roles ${rols}`,
       });
     }
 
@@ -40,5 +40,5 @@ const tieneRole = (...rols) => {
 
 module.exports = {
   isAdminRol,
-  tieneRole,
+  doesHaveArole,
 };

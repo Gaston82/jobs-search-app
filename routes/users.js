@@ -12,9 +12,13 @@ const {
   doesRoleValid,
   doesUserExistById,
 } = require("../helpers/db-validators");
-const { checkFields } = require("../middlewares/check-fields");
-const { checkJWT } = require("../middlewares/check-jwt");
-const { isAdminRol } = require("../middlewares/check-rols");
+
+const {
+  checkFields,
+  checkJWT,
+  isAdminRol,
+  doesHaveArole,
+} = require("../middlewares");
 
 const router = Router();
 
@@ -53,6 +57,7 @@ router.delete(
   [
     checkJWT,
     isAdminRol,
+    doesHaveArole("ADMIN_ROLE", "USER_ROLE", "COMPANY_ROLE"),
     check("id", " id not valid").isMongoId(),
     check("id").custom(doesUserExistById),
     checkFields,
