@@ -19,11 +19,10 @@ const getJobs = async (req, res) => {
 const postJob = async (req, res) => {
   const { city, description, salary } = req.body;
 
-  const job = new Job({ city, description, salary });
+  const job = new Job({ city, description, salary, user: req.user._id });
   await job.save();
 
-  res.json({
-    msg: "post - job",
+  res.status(201).json({
     job,
   });
 };
@@ -38,12 +37,16 @@ const deleteJob = async (req, res) => {
 };
 
 /*Private route - only admin role - */
-const putJob = (req, res) => {
+const putJob = async (req, res) => {
   const { id } = req.params;
-  res.json({
-    msg: "put - job",
-    id,
-  });
+  const { status, user, ...data } = req.body;
+
+  // data.city = data.city.toUpperCase();
+  // data.user = req.user._id;
+
+  const job = await Job.findByIdAndUpdate(id, data);
+
+  res.json(job);
 };
 
 module.exports = {
