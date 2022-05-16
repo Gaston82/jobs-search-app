@@ -1,5 +1,6 @@
 const User = require("../models/user");
 const Rol = require("../models/role");
+const Job = require("../models/job ");
 
 const doesRoleValid = async (role = "") => {
   const existeRol = await Rol.findOne({ role });
@@ -24,8 +25,16 @@ const doesEmailExist = async (email = "") => {
   }
 };
 
+const doesJobExistById = async (id) => {
+  const jobExist = await Job.findById(id);
+  if (!jobExist) {
+    throw new Error(`Offer with id:  ${id} doesn't exist`);
+  }
+};
+
 module.exports = {
   doesRoleValid,
   doesEmailExist,
   doesUserExistById,
+  doesJobExistById,
 };
