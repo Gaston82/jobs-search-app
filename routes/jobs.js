@@ -12,12 +12,14 @@ router.post(
   [
     checkJWT,
     doesHaveArole("ADMIN_ROLE", "COMPANY_ROLE"),
+    check("title", "Title is required").not().isEmpty(),
     check("city", "City is required").not().isEmpty(),
     check("description", "Description is required").not().isEmpty(),
   ],
   checkFields,
   postJob
 );
+
 router.delete(
   "/:id",
   [
@@ -30,6 +32,15 @@ router.delete(
   deleteJob
 );
 
-router.put("/:id", putJob);
+router.put(
+  "/:id",
+  [
+    checkJWT,
+    check("id", " id not valid").isMongoId(),
+    check("id").custom(doesJobExistById),
+    checkFields,
+  ],
+  putJob
+);
 
 module.exports = router;
